@@ -1,0 +1,29 @@
+.main {
+  margin: 3rem;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.historyTree {
+  width: 350px;
+  overflow-x: auto;
+}
+
+.treeInstruction {
+  width: max-content;
+}
+
+.gameScene {
+  margin-left: 3rem;
+  text-align: center;
+}
+
+.relatedContainer {
+  margin-top: 2rem;
+}
+
+.relatedPaper {
+  padding: 1rem;
+  margin-top: 1rem;
+}
