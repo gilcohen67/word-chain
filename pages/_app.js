@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import { lightTheme, darkTheme } from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
+import { GlobalContextProvider } from '../src/GlobalContext';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -26,10 +27,12 @@ export default function MyApp(props) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={selectedTheme ? darkTheme : lightTheme}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
         <DarkModeContext.Provider value={value}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component {...pageProps} />
+          <GlobalContextProvider>
+            <Component {...pageProps} />
+          </GlobalContextProvider>
         </DarkModeContext.Provider>
       </ThemeProvider>
     </CacheProvider>
