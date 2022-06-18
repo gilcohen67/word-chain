@@ -10,11 +10,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import Switch from '@mui/material/Switch';
 import { DarkMode, LightMode } from '@mui/icons-material';
+import { useThemeContext } from '../src/theme';
+import { DarkModeContext } from '../pages/_app';
 
-export default function TopBar({ selectedTheme, setSelectedTheme }) {
+export default function TopBar() {
+  const { selectedTheme, setSelectedTheme } = React.useContext(DarkModeContext)
   function toggleTheme() {
     setSelectedTheme(!selectedTheme);
   }
+  const start = 'hello';
+  const goal = 'world';
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary" enableColorOnDark>
@@ -28,9 +33,15 @@ export default function TopBar({ selectedTheme, setSelectedTheme }) {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Word Chain
           </Typography>
+          {start !== '' && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Start: {start}
+          </Typography>}
+          {goal !== '' && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Goal: {goal}
+          </Typography>}
           {!selectedTheme && <LightMode></LightMode>}
           {selectedTheme && <DarkMode></DarkMode>}
           <Switch onChange={toggleTheme} color="secondary" checked={selectedTheme} />
