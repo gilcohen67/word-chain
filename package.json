@@ -10,6 +10,7 @@
     "server": "nodemon server --watch"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.113.0",
     "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.9.3",
     "@emotion/server": "^11.4.0",
@@ -26,6 +27,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "dotenv": "^16.0.1",
     "eslint": "8.18.0",
     "eslint-config-next": "12.1.6",
     "nodemon": "^2.0.16"

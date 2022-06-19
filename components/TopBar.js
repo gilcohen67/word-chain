@@ -45,7 +45,7 @@ export default function TopBar() {
           {selectedTheme && <DarkMode></DarkMode>}
           <Switch onChange={toggleTheme} color="secondary" checked={selectedTheme} />
           <Link href="/">
-            <Button color="secondary">Home</Button>
+            <Button color="primary">Home</Button>
           </Link>
         </Toolbar>
       </AppBar>
