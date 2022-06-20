@@ -35,17 +35,17 @@ export default function TopBar() {
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Word Chain
           </Typography>
-          {dailyWords[0] !== '' && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Start: {dailyWords[0]}
+          {dailyWords[0].word !== '' && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Start: {dailyWords[0].word}
           </Typography>}
-          {dailyWords[1] !== '' && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Goal: {dailyWords[1]}
+          {dailyWords[1].word !== '' && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Goal: {dailyWords[1].word}
           </Typography>}
           {!selectedTheme && <LightMode></LightMode>}
           {selectedTheme && <DarkMode></DarkMode>}
           <Switch onChange={toggleTheme} color="secondary" checked={selectedTheme} />
           <Link href="/">
-            <Button color="primary">Home</Button>
+            <Button color="secondary">Home</Button>
           </Link>
         </Toolbar>
       </AppBar>

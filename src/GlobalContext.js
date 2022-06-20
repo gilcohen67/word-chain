@@ -1,6 +1,7 @@
-import React, { useContext, createContext, useState } from 'react';
+import { ContactPhoneSharp } from '@mui/icons-material';
+import axios from 'axios';
+import React, { useContext, createContext, useState, useEffect } from 'react';
 
-// TODO: add context for toggle theme
 const GlobalContext = createContext();
 
 export default function useGlobalContext() {
@@ -8,11 +9,26 @@ export default function useGlobalContext() {
 }
 
 export function GlobalContextProvider({ children }) {
-  const [dailyWords, setDailyWords] = useState(['', '']);
-
+  const [dailyWords, setDailyWords] = useState([{}, {}]);
+  const [currentWord, setCurrentWord] = useState('');
+  useEffect(() => {
+    if ((dailyWords[0].thes === undefined || typeof dailyWords[0].thes === 'string') || (dailyWords[1].thes === undefined || typeof dailyWords[1].thes === 'string')) {
+      axios.get('http://localhost:8080/words/daily')
+        .then(({ data }) => {
+          console.log(data);
+          setDailyWords([data.start, data.goal]);
+          setCurrentWord(data.start);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [dailyWords]);
   const value = {
     dailyWords,
-    setDailyWords
+    setDailyWords,
+    currentWord,
+    setCurrentWord,
   };
   return (
     <GlobalContext.Provider value={value}>

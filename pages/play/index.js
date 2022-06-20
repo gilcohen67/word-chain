@@ -9,7 +9,7 @@ export default function Play() {
       <TopBar />
       <div className={styles.main}>
       <HistoryTree />
-      <GameScene />
+      <GameScene/>
       </div>
     </main>
   )

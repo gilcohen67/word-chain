@@ -1,10 +1,13 @@
 import { Container, Grid, Paper } from "@mui/material";
+import axios from "axios";
 import styles from '../styles/Play.module.css';
+import useGlobalContext from "../src/GlobalContext";
 
 export default function GameScene() {
+  const { currentWord } = useGlobalContext();
   return (
     <Container className={styles.gameScene}>
-      <div >Current Stuffs</div>
+      <div>{currentWord.word}</div>
       <div>Related Options</div>
         <Container className={styles.relatedContainer}>
         <Paper className={styles.relatedPaper}>Short Definition</Paper>
