@@ -12,11 +12,11 @@ export function GlobalContextProvider({ children }) {
   const [dailyWords, setDailyWords] = useState([{}, {}]);
   const [currentWord, setCurrentWord] = useState('');
   const [showRules, setShowRules] = useState(false);
+  const [showDefModal, setShowDefModal] = useState('none');
   useEffect(() => {
     if ((dailyWords[0].thes === undefined || typeof dailyWords[0].thes === 'string') || (dailyWords[1].thes === undefined || typeof dailyWords[1].thes === 'string')) {
       axios.get('http://localhost:8080/words/daily')
         .then(({ data }) => {
-          console.log(data);
           setDailyWords([data.start, data.goal]);
           setCurrentWord(data.start);
         })
@@ -31,7 +31,9 @@ export function GlobalContextProvider({ children }) {
     currentWord,
     setCurrentWord,
     showRules,
-    setShowRules
+    setShowRules,
+    showDefModal,
+    setShowDefModal
   };
   return (
     <GlobalContext.Provider value={value}>

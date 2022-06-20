@@ -9,6 +9,7 @@ import { lightTheme, darkTheme } from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
 import { GlobalContextProvider } from '../src/GlobalContext';
 import Rules from '../components/Rules';
+import DefinitionModal from '../components/DefinitionModal';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -34,6 +35,7 @@ export default function MyApp(props) {
           <GlobalContextProvider>
             <Component {...pageProps} />
             <Rules />
+            <DefinitionModal />
           </GlobalContextProvider>
         </DarkModeContext.Provider>
       </ThemeProvider>
