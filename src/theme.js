@@ -9,7 +9,10 @@ const darkTheme = createTheme({
       main: '#ff9800',
     },
     secondary: {
-      main: '#000000',
+      main: '#ffffff',
+    },
+    topBar: {
+      main: '#000000'
     },
     error: {
       main: red.A400,
@@ -25,6 +28,9 @@ const lightTheme = createTheme({
     },
     secondary: {
       main: '#000000',
+    },
+    topBar: {
+      main: '#000000'
     },
     error: {
       main: red.A400,

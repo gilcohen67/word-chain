@@ -6,7 +6,7 @@ import styles from '../../styles/Play.module.css'
 export default function Play() {
   return (
     <main>
-      <TopBar />
+      <TopBar playPage/>
       <div className={styles.main}>
       <HistoryTree />
       <GameScene/>

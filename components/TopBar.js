@@ -13,11 +13,14 @@ import { DarkMode, LightMode } from '@mui/icons-material';
 import { DarkModeContext } from '../pages/_app';
 import useGlobalContext from '../src/GlobalContext';
 
-export default function TopBar() {
+export default function TopBar({ playPage }) {
   const { selectedTheme, setSelectedTheme } = useContext(DarkModeContext);
-  const { dailyWords } = useGlobalContext();
+  const { dailyWords, setShowRules } = useGlobalContext();
   function toggleTheme() {
     setSelectedTheme(!selectedTheme);
+  }
+  function handleRulesClick() {
+    setShowRules(true);
   }
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -35,17 +38,18 @@ export default function TopBar() {
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Word Chain
           </Typography>
-          {dailyWords[0].word !== '' && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          {playPage && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Start: {dailyWords[0].word}
           </Typography>}
-          {dailyWords[1].word !== '' && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          {playPage && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Goal: {dailyWords[1].word}
           </Typography>}
           {!selectedTheme && <LightMode></LightMode>}
           {selectedTheme && <DarkMode></DarkMode>}
-          <Switch onChange={toggleTheme} color="secondary" checked={selectedTheme} />
+          <Switch onChange={toggleTheme} color="topBar" checked={selectedTheme} />
+          <Button color="topBar" onClick={handleRulesClick}>Rules</Button>
           <Link href="/">
-            <Button color="secondary">Home</Button>
+            <Button color="topBar">Home</Button>
           </Link>
         </Toolbar>
       </AppBar>
