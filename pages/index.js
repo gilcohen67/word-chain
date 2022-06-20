@@ -5,14 +5,10 @@ import Link from 'next/link';
 import { Button, Card } from '@mui/material';
 import TopBar from '../components/TopBar';
 import useGlobalContext from '../src/GlobalContext';
-import randomWords from 'random-words';
-
 
 export default function Welcome() {
   const { setDailyWords } = useGlobalContext();
-  function handleNewGame() {
-    setDailyWords(randomWords({exactly: 2}));
-  }
+
   return (
     <div>
       <Head>
@@ -27,7 +23,7 @@ export default function Welcome() {
           <div className={styles.grid}>
             <div className={styles.card}>{'Start Today\'s Challenge'}</div>
             <Link href="/play">
-              <Button variant="outlined" onClick={handleNewGame}>New Game!</Button>
+              <Button variant="outlined">New Game!</Button>
             </Link>
           </div>
         </div>
