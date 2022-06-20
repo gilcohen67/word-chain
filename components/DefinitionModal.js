@@ -29,10 +29,11 @@ export default function DefinitionModal() {
   }
   function definition() {
     if (showDefModal === 'start') {
-      return dailyWords[0].thes.shortdef[0];
+      return dailyWords[0].thes.shortdef;
     } else if (showDefModal === 'goal') {
-      return dailyWords[1].thes.shortdef[0];
+      return dailyWords[1].thes.shortdef;
     }
+    return [];
   }
   return (
     <Modal
@@ -45,9 +46,11 @@ export default function DefinitionModal() {
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {word()}
         </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {definition()}
-        </Typography>
+        {(dailyWords[0].thes && dailyWords[1].thes) && definition().map((def, idx) => (
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} key={idx}>
+            {def}
+          </Typography>
+        ))}
       </Box>
     </Modal>
   );
