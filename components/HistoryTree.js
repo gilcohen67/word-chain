@@ -1,14 +1,55 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import styles from '../styles/Play.module.css'
+import useGlobalContext from '../src/GlobalContext';
+import TreeDS from '../src/TreeDS';
+import TimeLineDS from '../src/TimeLineDS';
 
 export default function HistoryTree() {
-  function handleClick(e) {
+  const { currentWord, setCurrentWord } = useGlobalContext();
+  const [history, setHistory] = useState(new TreeDS(currentWord.word, true));
+  // const [currentHistoryNode, setCurrentHistoryNode] = useState(history);
+  const [timeLine, setTimeLine] = useState(new TimeLineDS());
+  useEffect(() => {
+    if (currentWord.word === undefined || currentWord.word === '') {
+      return;
+    }
+    console.log('current Word::', currentWord.word);
+    if (timeLine.check(currentWord.word)) {
+      console.log('found in timeline returning...')
+      setTimeLine(timeLine.add(currentWord.word));
+      return;
+    }
+    setTimeLine(timeLine.add(currentWord.word));
+    let node = new TreeDS(currentWord.word);
+    history.allNodes[currentWord.word] = node;
+    history.allNodes[currentWord.word].addChild(node);
+    console.log('history', history)
+    setHistory(history);
+  }, [currentWord.word]);
+
+  function handleDoubleClick(e) {
     console.log(e.target.innerText);
   }
+
+  function renderHistory(node, id = 0) {
+    id++;
+    return (
+      <TreeItem
+        key={id}
+        nodeId={id.toString()}
+        label={node.value}
+      >
+        {node.children && node.children.map((child) => {
+          return renderHistory(child, id++);
+        })}
+      </TreeItem>
+    )
+  }
+
   return (
     <div>
       <div className={styles.treeInstruction}>Click to expand</div>
@@ -19,74 +60,9 @@ export default function HistoryTree() {
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
           sx={{ flexGrow: 1, width: 'max-content' }}
-          onDoubleClick={handleClick}
+          onDoubleClick={handleDoubleClick}
         >
-          <TreeItem nodeId="1" label="Applications">
-            <TreeItem nodeId="2" label="Calendar" />
-          </TreeItem>
-          <TreeItem nodeId="3" label="Documents">
-            <TreeItem nodeId="4" label="OSS" />
-            <TreeItem nodeId="5" label="MUI">
-              <TreeItem nodeId="6" label="index.js" />
-              <TreeItem nodeId="7" label="Applications">
-                <TreeItem nodeId="8" label="Calendar" />
-              </TreeItem>
-              <TreeItem nodeId="9" label="Documents">
-                <TreeItem nodeId="10" label="OSS" />
-                <TreeItem nodeId="11" label="MUI">
-                  <TreeItem nodeId="12" label="index.js" />
-                  <TreeItem nodeId="19" label="Applications">
-                    <TreeItem nodeId="20" label="Calendar" />
-                  </TreeItem>
-                  <TreeItem nodeId="21" label="Documents">
-                    <TreeItem nodeId="22" label="OSS" />
-                    <TreeItem nodeId="23" label="MUI">
-                      <TreeItem nodeId="24" label="index.js" />
-                      <TreeItem nodeId="25" label="Applications">
-                        <TreeItem nodeId="26" label="Calendar" />
-                      </TreeItem>
-                      <TreeItem nodeId="27" label="Documents">
-                        <TreeItem nodeId="28" label="OSS" />
-                        <TreeItem nodeId="29" label="MUI">
-                          <TreeItem nodeId="30" label="index.js" />
-                          <TreeItem nodeId="31" label='longer word'>
-                            <TreeItem nodeId="32" label='longer word'>
-                              <TreeItem nodeId="33" label='longer word'>
-                                <TreeItem nodeId="34" label='longer word'>
-                                  <TreeItem nodeId="35" label='longer word'>
-                                    <TreeItem nodeId="36" label='longer word'>
-                                      <TreeItem nodeId="37" label='longer word'>
-                                        <TreeItem nodeId="38" label='longer word'>
-                                          <TreeItem nodeId="39" label='longer word'>
-                                            <TreeItem nodeId="40" label='longer word'>
-
-                                            </TreeItem>
-                                          </TreeItem>
-                                        </TreeItem>
-                                      </TreeItem>
-                                    </TreeItem>
-                                  </TreeItem>
-                                </TreeItem>
-                              </TreeItem>
-                            </TreeItem>
-                          </TreeItem>
-                        </TreeItem>
-                      </TreeItem>
-                    </TreeItem>
-                  </TreeItem>
-                </TreeItem>
-              </TreeItem>
-            </TreeItem>
-          </TreeItem>
-          <TreeItem nodeId="13" label="Applications">
-            <TreeItem nodeId="14" label="Calendar" />
-          </TreeItem>
-          <TreeItem nodeId="15" label="Documents">
-            <TreeItem nodeId="16" label="OSS" />
-            <TreeItem nodeId="17" label="MUI">
-              <TreeItem nodeId="18" label="index.js" />
-            </TreeItem>
-          </TreeItem>
+          {renderHistory(history)}
         </TreeView>
       </div>
     </div>

@@ -6,8 +6,11 @@ import useGlobalContext from "../src/GlobalContext";
 export default function GameScene() {
   const { currentWord, setCurrentWord, dailyWords } = useGlobalContext();
   function handleWordClick(e) {
-    console.log(e.target.innerText.toLowerCase())
-    if (e.target.innerText.toLowerCase() === dailyWords[1].word) {
+    // check if word matches
+    // includes word with up to 3 characters at the end of it for plural or past tense
+    // might need tweaking
+    const re = new RegExp(`${dailyWords[1].word}.{0,3}`)
+    if (e.target.innerText.toLowerCase().match(re)) {
 
       return;
     }
@@ -16,7 +19,7 @@ export default function GameScene() {
         setCurrentWord(data);
       })
       .catch((err) => {
-        alert('Error with that word.. Maybe try another! SORRYYY!!!')
+        alert('Error with that word.. Maybe try another! SORRY!!!')
       })
   }
   function spreadSynonyms() {
