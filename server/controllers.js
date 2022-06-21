@@ -2,6 +2,12 @@ const randomWords = require('random-words');
 const axios = require('axios');
 require('dotenv').config();
 
+/**
+ * Winnable Games:
+ * Listen => Said
+ *
+ */
+
 exports.getDailyWords = (req, res) => {
   const words = randomWords({ exactly: 2 });
   Promise.all([

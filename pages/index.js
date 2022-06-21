@@ -1,5 +1,4 @@
-import styles from '../styles/Home.module.css'
-import Home from '../components/index.sample';
+import styles from '../styles/Home.module.css';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Card } from '@mui/material';

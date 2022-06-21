@@ -11,6 +11,7 @@ export default function HistoryTree() {
   }
   return (
     <div>
+      <div className={styles.treeInstruction}>Click to expand</div>
       <div className={styles.treeInstruction}>Double Click to go back to previous word</div>
       <div className={styles.historyTree}>
         <TreeView

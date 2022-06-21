@@ -34,7 +34,6 @@ export default function GameScene() {
   return (
     <Container className={styles.gameScene}>
       <h1>{`Current Word: ${currentWord.word}`}</h1>
-      {/* <h2>{currentWord.word}</h2> */}
       <Container className={styles.relatedContainer}>
         <h2>Definitions</h2>
         {currentWord.thes && currentWord.thes.shortdef.map((def, idx) => (
@@ -46,8 +45,6 @@ export default function GameScene() {
         ))}
         <h2>Synonyms</h2>
         {currentWord.thes && spreadSynonyms()}
-        {/* <Button key={idx} variant="outlined" size="large" color="secondary" className={styles.relatedPaper} value={synonym} onClick={handleWordClick}>{synonym}</Button> */}
-
       </Container>
     </Container>
   )
