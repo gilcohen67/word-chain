@@ -15,18 +15,27 @@ import useGlobalContext from '../src/GlobalContext';
 
 export default function TopBar({ playPage }) {
   const { selectedTheme, setSelectedTheme } = useContext(DarkModeContext);
-  const { dailyWords, setShowRules, setShowDefModal } = useGlobalContext();
+  const { dailyWords, setDailyWords, setHist, setShowRules, setShowDefModal } = useGlobalContext();
+
   function toggleTheme() {
     setSelectedTheme(!selectedTheme);
   }
+
   function handleRulesClick() {
     setShowRules(true);
   }
+
   function handleDailyClick(e) {
     setShowDefModal(e.target.id);
   }
+
+  function resetGame() {
+    setDailyWords([{}, {}]);
+    setHist([]);
+  }
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, userSelect: 'none' }}>
       <AppBar color="primary" enableColorOnDark>
         <Toolbar>
           {/* <IconButton
@@ -51,10 +60,12 @@ export default function TopBar({ playPage }) {
           </Typography>}
           {!selectedTheme && <LightMode></LightMode>}
           {selectedTheme && <DarkMode></DarkMode>}
-          <Switch onChange={toggleTheme} color="topBar" checked={selectedTheme} />
+          <label aria-label={selectedTheme ? 'Dark Mode' : 'Light Mode'}>
+            <Switch onChange={toggleTheme} color="topBar" checked={selectedTheme} />
+          </label>
           <Button color="topBar" size="large" onClick={handleRulesClick}>Rules</Button>
           <Link href="/">
-            <Button color="topBar" size="large">Home</Button>
+            <Button color="topBar" size="large" onClick={resetGame}>Home</Button>
           </Link>
         </Toolbar>
       </AppBar>

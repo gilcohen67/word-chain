@@ -2,6 +2,34 @@ const randomWords = require('random-words');
 const axios = require('axios');
 require('dotenv').config();
 
+/**
+ * Winnable Games:
+ * Listen => Said
+ *
+ */
+
+function hashCode(string) {
+  var hash = 0, i, chr;
+  if (string.length === 0) return hash;
+  for (i = 0; i < string.length; i++) {
+    chr = string.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+function getDate() {
+  let today = '';
+  const date = new Date();
+  today += date.getUTCMonth();
+  today += date.getUTCDate();
+  today += date.getUTCFullYear();
+  return today;
+}
+function hashDate() {
+  return hashCode(getDate());
+}
+
 exports.getDailyWords = (req, res) => {
   const words = randomWords({ exactly: 2 });
   Promise.all([
@@ -20,10 +48,13 @@ exports.getDailyWords = (req, res) => {
 }
 
 exports.getThesByWord = (req, res) => {
-  console.log(req.params.word);
   axios.get(`${process.env.THES_API_URL}${req.params.word}?key=${process.env.THES_API_KEY}`)
     .then(({ data }) => {
-      console.log(data[0]);
+      if (typeof data[0] === 'string' || data[0] === undefined) {
+        console.log(data[0]);
+        res.sendStatus(404);
+        return;
+      }
       res.send({ word: req.params.word, thes: data[0] });
     })
     .catch(err => {

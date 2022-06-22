@@ -1,19 +1,12 @@
-import styles from '../styles/Home.module.css'
-import Home from '../components/index.sample';
+import styles from '../styles/Home.module.css';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Card } from '@mui/material';
 import TopBar from '../components/TopBar';
-import useGlobalContext from '../src/GlobalContext';
 
 export default function Welcome() {
-  const { setDailyWords } = useGlobalContext();
-
   return (
     <div>
-      <Head>
-        <title>Word Chain MVP</title>
-      </Head>
       <main>
         <TopBar />
         <div className={styles.main}>
