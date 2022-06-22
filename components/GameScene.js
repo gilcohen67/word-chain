@@ -6,12 +6,10 @@ import useGlobalContext from "../src/GlobalContext";
 export default function GameScene() {
   const { currentWord, setCurrentWord, dailyWords } = useGlobalContext();
   function handleWordClick(e) {
-    // check if word matches
-    // includes word with up to 3 characters at the end of it for plural or past tense
-    // might need tweaking
-    const re = new RegExp(`${dailyWords[1].word}.{0,3}`)
+    // win if goal is within clicked word
+    const re = new RegExp(`${dailyWords[1].word}`)
     if (e.target.innerText.toLowerCase().match(re)) {
-
+      alert('you win!!!!');
       return;
     }
     axios.get(`http://localhost:8080/thesaurus/${e.target.innerText.toLowerCase()}`)

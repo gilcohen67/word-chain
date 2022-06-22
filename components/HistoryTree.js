@@ -5,49 +5,73 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import styles from '../styles/Play.module.css'
 import useGlobalContext from '../src/GlobalContext';
-import TreeDS from '../src/TreeDS';
-import TimeLineDS from '../src/TimeLineDS';
+import TimelineDS from '../src/TimelineDS';
+import axios from 'axios';
 
 export default function HistoryTree() {
   const { currentWord, setCurrentWord } = useGlobalContext();
-  const [history, setHistory] = useState(new TreeDS(currentWord.word, true));
-  // const [currentHistoryNode, setCurrentHistoryNode] = useState(history);
-  const [timeLine, setTimeLine] = useState(new TimeLineDS());
+  const [hist, setHist] = useState([]);
+  const [idMap, setIdMap] = useState({});
+  const [lastWord, setLastWord] = useState(null);
+  const [timeline, setTimeline] = useState(new TimelineDS());
   useEffect(() => {
     if (currentWord.word === undefined || currentWord.word === '') {
       return;
     }
-    console.log('current Word::', currentWord.word);
-    if (timeLine.check(currentWord.word)) {
-      console.log('found in timeline returning...')
-      setTimeLine(timeLine.add(currentWord.word));
+    if (timeline.check(currentWord.word)) {
+      setTimeline(timeline.add(currentWord.word));
+      if (hist.length > 2) {
+        setLastWord(currentWord.word);
+      }
       return;
     }
-    setTimeLine(timeLine.add(currentWord.word));
-    let node = new TreeDS(currentWord.word);
-    history.allNodes[currentWord.word] = node;
-    history.allNodes[currentWord.word].addChild(node);
-    console.log('history', history)
-    setHistory(history);
+    setTimeline(timeline.add(currentWord.word));
+    hist.push({ val: currentWord.word, parentVal: lastWord });
+    setHist(hist);
+    setIdMap(hist.reduce((acc, el, i) => {
+      acc[el.val] = i;
+      return acc;
+    }, {}));
+    setLastWord(currentWord.word);
   }, [currentWord.word]);
 
   function handleDoubleClick(e) {
-    console.log(e.target.innerText);
+    axios.get(`http://localhost:8080/thesaurus/${e.target.innerText}`)
+      .then(({ data }) => {
+        setCurrentWord(data);
+      })
+      .catch((err) => {
+        alert('Something went Wrong...');
+      })
   }
 
-  function renderHistory(node, id = 0) {
-    id++;
-    return (
-      <TreeItem
-        key={id}
-        nodeId={id.toString()}
-        label={node.value}
-      >
-        {node.children && node.children.map((child) => {
-          return renderHistory(child, id++);
-        })}
-      </TreeItem>
-    )
+  function renderHistory(parent = null) {
+    return hist.map((item, idx) => {
+      if (item.parentVal === parent) {
+        return (
+          <TreeItem
+            key={idMap[item.val]}
+            nodeId={idMap[item.val].toString()}
+            label={item.val}
+          >
+            {renderHistory(item.val)}
+          </TreeItem>
+        )
+      }
+    })
+  }
+
+  function createHistTree() {
+    let root = undefined;
+    hist.forEach((el) => {
+      if (el.parentVal === null) {
+        root = el;
+        return;
+      }
+      const parentEl = hist[idMap[el.parentVal]];
+      parentEl.children = [...(parentEl.children || []), el];
+    });
+    return root;
   }
 
   return (
@@ -62,7 +86,7 @@ export default function HistoryTree() {
           sx={{ flexGrow: 1, width: 'max-content' }}
           onDoubleClick={handleDoubleClick}
         >
-          {renderHistory(history)}
+          {renderHistory()}
         </TreeView>
       </div>
     </div>

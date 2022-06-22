@@ -1,4 +1,4 @@
-export default class TimeLineDS {
+export default class TimelineDS {
   constructor() {
     this._values = {};
     this._line = [];
