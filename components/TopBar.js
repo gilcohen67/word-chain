@@ -15,7 +15,7 @@ import useGlobalContext from '../src/GlobalContext';
 
 export default function TopBar({ playPage }) {
   const { selectedTheme, setSelectedTheme } = useContext(DarkModeContext);
-  const { dailyWords, setDailyWords, setHist, setShowRules, setShowDefModal } = useGlobalContext();
+  const { dailyWords, setDailyWords, setHistory, setShowRules, setShowDefModal, setTimeline } = useGlobalContext();
 
   function toggleTheme() {
     setSelectedTheme(!selectedTheme);
@@ -31,7 +31,8 @@ export default function TopBar({ playPage }) {
 
   function resetGame() {
     setDailyWords([{}, {}]);
-    setHist([]);
+    setHistory([]);
+    setTimeline([]);
   }
 
   return (

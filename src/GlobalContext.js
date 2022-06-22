@@ -42,7 +42,7 @@ export function GlobalContextProvider({ children }) {
     showWin,
     setShowWin,
     timeline,
-    setTimeline
+    setTimeline,
   };
   return (
     <GlobalContext.Provider value={value}>

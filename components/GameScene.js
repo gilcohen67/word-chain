@@ -4,7 +4,14 @@ import styles from '../styles/Play.module.css';
 import useGlobalContext from "../src/GlobalContext";
 
 export default function GameScene() {
-  const { currentWord, setCurrentWord, dailyWords, setShowWin } = useGlobalContext();
+  const {
+    currentWord,
+    setCurrentWord,
+    dailyWords,
+    setShowWin,
+    timeline,
+    setTimeline,
+  } = useGlobalContext();
   function handleWordClick(e) {
     if (e.detail > 1) {
       return;
@@ -13,6 +20,8 @@ export default function GameScene() {
     const re = new RegExp(`${dailyWords[1].word}`)
     if (e.target.innerText.toLowerCase().match(re)) {
       setShowWin(true);
+      timeline.push(e.target.innerText.toLowerCase());
+      setTimeline(timeline);
       return;
     }
     axios.get(`http://localhost:8080/thesaurus/${e.target.innerText.toLowerCase()}`)
