@@ -6,6 +6,9 @@ import useGlobalContext from "../src/GlobalContext";
 export default function GameScene() {
   const { currentWord, setCurrentWord, dailyWords } = useGlobalContext();
   function handleWordClick(e) {
+    if (e.detail > 1) {
+      return;
+    }
     // win if goal is within clicked word
     const re = new RegExp(`${dailyWords[1].word}`)
     if (e.target.innerText.toLowerCase().match(re)) {
@@ -28,7 +31,7 @@ export default function GameScene() {
       })
     });
     return synonyms.map((syn, idx) => (
-      <Button key={idx} variant="outlined" size="large" color="secondary" className={styles.relatedPaper} value={syn} onClick={handleWordClick}>{syn}</Button>
+      <Button key={idx} variant="outlined" size="large" color="secondary" className={styles.related} value={syn} onClick={handleWordClick}>{syn}</Button>
     ));
   }
 
@@ -38,9 +41,9 @@ export default function GameScene() {
       <Container className={styles.relatedContainer}>
         <h2>Definitions</h2>
         {currentWord.thes && currentWord.thes.shortdef.map((def, idx) => (
-          <Paper key={idx} className={styles.relatedPaper}>
+          <Paper key={idx} className={styles.related}>
             {def.split(' ').map((word, idx) => (
-              <span key={idx} onClick={handleWordClick}> {word} </span>
+              <span key={idx} onClick={handleWordClick} className={styles.definition}> {word} </span>
             ))}
           </Paper>
         ))}

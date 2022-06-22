@@ -26,10 +26,13 @@ exports.getDailyWords = (req, res) => {
 }
 
 exports.getThesByWord = (req, res) => {
-  console.log(req.params.word);
   axios.get(`${process.env.THES_API_URL}${req.params.word}?key=${process.env.THES_API_KEY}`)
     .then(({ data }) => {
-      console.log(data[0]);
+      if (typeof data[0] === 'string' || data[0] === undefined) {
+        console.log(data[0]);
+        res.sendStatus(404);
+        return;
+      }
       res.send({ word: req.params.word, thes: data[0] });
     })
     .catch(err => {

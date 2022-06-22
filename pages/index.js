@@ -3,11 +3,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Card } from '@mui/material';
 import TopBar from '../components/TopBar';
-import useGlobalContext from '../src/GlobalContext';
 
 export default function Welcome() {
-  const { setDailyWords } = useGlobalContext();
-
   return (
     <div>
       <Head>

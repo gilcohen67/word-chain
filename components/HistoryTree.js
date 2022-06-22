@@ -5,27 +5,23 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import styles from '../styles/Play.module.css'
 import useGlobalContext from '../src/GlobalContext';
-import TimelineDS from '../src/TimelineDS';
 import axios from 'axios';
 
 export default function HistoryTree() {
-  const { currentWord, setCurrentWord } = useGlobalContext();
-  const [hist, setHist] = useState([]);
+  const { currentWord, setCurrentWord, hist, setHist } = useGlobalContext();
   const [idMap, setIdMap] = useState({});
   const [lastWord, setLastWord] = useState(null);
-  const [timeline, setTimeline] = useState(new TimelineDS());
+  const [timeline, setTimeline] = useState([]);
   useEffect(() => {
     if (currentWord.word === undefined || currentWord.word === '') {
       return;
     }
-    if (timeline.check(currentWord.word)) {
-      setTimeline(timeline.add(currentWord.word));
-      if (hist.length > 2) {
-        setLastWord(currentWord.word);
-      }
+    timeline.push(currentWord.word);
+    setTimeline(timeline);
+    if (idMap[currentWord.word] !== undefined) {
+      setLastWord(currentWord.word);
       return;
     }
-    setTimeline(timeline.add(currentWord.word));
     hist.push({ val: currentWord.word, parentVal: lastWord });
     setHist(hist);
     setIdMap(hist.reduce((acc, el, i) => {
@@ -42,12 +38,23 @@ export default function HistoryTree() {
       })
       .catch((err) => {
         alert('Something went Wrong...');
-      })
+      });
   }
 
   function renderHistory(parent = null) {
     return hist.map((item, idx) => {
       if (item.parentVal === parent) {
+        if (parent === null) {
+          return (
+            <TreeItem
+              key={idMap[item.val]}
+              nodeId={idMap[item.val].toString()}
+              label={item.val}
+            >
+              {renderHistory(item.val)}
+            </TreeItem>
+          )
+        }
         return (
           <TreeItem
             key={idMap[item.val]}
@@ -81,7 +88,7 @@ export default function HistoryTree() {
       <div className={styles.historyTree}>
         <TreeView
           aria-label="history tree"
-          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultCollapseIcon={<ExpandMoreIcon color="primary" />}
           defaultExpandIcon={<ChevronRightIcon />}
           sx={{ flexGrow: 1, width: 'max-content' }}
           onDoubleClick={handleDoubleClick}
