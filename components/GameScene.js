@@ -4,7 +4,7 @@ import styles from '../styles/Play.module.css';
 import useGlobalContext from "../src/GlobalContext";
 
 export default function GameScene() {
-  const { currentWord, setCurrentWord, dailyWords } = useGlobalContext();
+  const { currentWord, setCurrentWord, dailyWords, setShowWin } = useGlobalContext();
   function handleWordClick(e) {
     if (e.detail > 1) {
       return;
@@ -12,7 +12,7 @@ export default function GameScene() {
     // win if goal is within clicked word
     const re = new RegExp(`${dailyWords[1].word}`)
     if (e.target.innerText.toLowerCase().match(re)) {
-      alert('you win!!!!');
+      setShowWin(true);
       return;
     }
     axios.get(`http://localhost:8080/thesaurus/${e.target.innerText.toLowerCase()}`)

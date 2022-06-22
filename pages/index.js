@@ -7,9 +7,6 @@ import TopBar from '../components/TopBar';
 export default function Welcome() {
   return (
     <div>
-      <Head>
-        <title>Word Chain MVP</title>
-      </Head>
       <main>
         <TopBar />
         <div className={styles.main}>

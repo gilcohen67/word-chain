@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import useGlobalContext from '../src/GlobalContext';
@@ -33,7 +32,7 @@ export default function Rules() {
             Word Chain Rules
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Click on a word
+            Click on a definition word
           </Typography>
         </Box>
       </Modal>

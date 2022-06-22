@@ -8,10 +8,16 @@ import useGlobalContext from '../src/GlobalContext';
 import axios from 'axios';
 
 export default function HistoryTree() {
-  const { currentWord, setCurrentWord, hist, setHist } = useGlobalContext();
+  const {
+    currentWord,
+    setCurrentWord,
+    history,
+    setHistory,
+    timeline,
+    setTimeline,
+  } = useGlobalContext();
   const [idMap, setIdMap] = useState({});
   const [lastWord, setLastWord] = useState(null);
-  const [timeline, setTimeline] = useState([]);
   useEffect(() => {
     if (currentWord.word === undefined || currentWord.word === '') {
       return;
@@ -22,9 +28,9 @@ export default function HistoryTree() {
       setLastWord(currentWord.word);
       return;
     }
-    hist.push({ val: currentWord.word, parentVal: lastWord });
-    setHist(hist);
-    setIdMap(hist.reduce((acc, el, i) => {
+    history.push({ val: currentWord.word, parentVal: lastWord });
+    setHistory(history);
+    setIdMap(history.reduce((acc, el, i) => {
       acc[el.val] = i;
       return acc;
     }, {}));
@@ -42,7 +48,7 @@ export default function HistoryTree() {
   }
 
   function renderHistory(parent = null) {
-    return hist.map((item, idx) => {
+    return history.map((item, idx) => {
       if (item.parentVal === parent) {
         if (parent === null) {
           return (
@@ -68,14 +74,14 @@ export default function HistoryTree() {
     })
   }
 
-  function createHistTree() {
+  function createHistoryTree() {
     let root = undefined;
-    hist.forEach((el) => {
+    history.forEach((el) => {
       if (el.parentVal === null) {
         root = el;
         return;
       }
-      const parentEl = hist[idMap[el.parentVal]];
+      const parentEl = history[idMap[el.parentVal]];
       parentEl.children = [...(parentEl.children || []), el];
     });
     return root;

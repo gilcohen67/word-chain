@@ -8,6 +8,28 @@ require('dotenv').config();
  *
  */
 
+function hashCode(string) {
+  var hash = 0, i, chr;
+  if (string.length === 0) return hash;
+  for (i = 0; i < string.length; i++) {
+    chr = string.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+function getDate() {
+  let today = '';
+  const date = new Date();
+  today += date.getUTCMonth();
+  today += date.getUTCDate();
+  today += date.getUTCFullYear();
+  return today;
+}
+function hashDate() {
+  return hashCode(getDate());
+}
+
 exports.getDailyWords = (req, res) => {
   const words = randomWords({ exactly: 2 });
   Promise.all([
