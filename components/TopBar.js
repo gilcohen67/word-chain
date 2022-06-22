@@ -52,11 +52,11 @@ export default function TopBar({ playPage }) {
             Word Chain
           </Typography>
           {playPage && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Start:
+            START:
             <Button color="topBar" size="large" id="start" onClick={handleDailyClick}>{dailyWords[0].word}</Button>
           </Typography>}
           {playPage && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Goal:
+            GOAL:
             <Button color="topBar" size="large" id="goal" onClick={handleDailyClick}>{dailyWords[1].word}</Button>
           </Typography>}
           {!selectedTheme && <LightMode></LightMode>}
