@@ -14,8 +14,8 @@ const darkTheme = createTheme({
     topBar: {
       main: '#000000'
     },
-    error: {
-      main: red.A400,
+    alert: {
+      main: '#ff9800',
     },
   },
 });
@@ -30,10 +30,10 @@ const lightTheme = createTheme({
       main: '#000000',
     },
     topBar: {
-      main: '#000000'
+      main: '#000000',
     },
-    error: {
-      main: red.A400,
+    alert: {
+      main: '#ff9800',
     },
   },
 });

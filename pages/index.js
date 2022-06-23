@@ -1,10 +1,9 @@
+import React from 'react';
 import styles from '../styles/Home.module.css';
-import Head from 'next/head';
-import Link from 'next/link';
-import { Button, Card } from '@mui/material';
 import TopBar from '../components/TopBar';
 import Leaderboard from '../components/LeaderBoard';
 import useGlobalContext from '../src/GlobalContext';
+import UsernameField from '../components/Username';
 
 export default function Welcome() {
   const { history } = useGlobalContext();
@@ -15,13 +14,11 @@ export default function Welcome() {
         <h1 className={styles.title}>Welcome to Word Chain</h1>
         <p>
           {new Date().toLocaleDateString('en-US')}</p>
-        <div className={styles.grid}>
-          {!history.length && <div className={styles.card}>{'Start Today\'s Challenge'}</div>}
-          <Link href="/play">
-            <Button variant="outlined">{history.length ? 'Continue' : 'New Game!'}</Button>
-          </Link>
+        {!history.length && <div className={styles.card}>{'Start Today\'s Challenge'}</div>}
+        <div className={styles.newGame}>
+          <UsernameField />
         </div>
-      <Leaderboard />
+        <Leaderboard />
       </main>
     </div>
   )
