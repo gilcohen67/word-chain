@@ -11,7 +11,7 @@
   overflow-x: auto;
   margin-top: 2rem;
   user-select: none;
-  border: currentColor solid 2px;
+  /* border: currentColor solid 2px; */
 }
 
 .treeInstruction {

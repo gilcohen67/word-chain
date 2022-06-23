@@ -1,12 +1,8 @@
 const randomWords = require('random-words');
 const axios = require('axios');
+const { getWordsByDate, insertDailyWords } = require('../db/index');
+const { unmarshall } = require('@aws-sdk/util-dynamodb');
 require('dotenv').config();
-
-/**
- * Winnable Games:
- * Listen => Said
- *
- */
 
 function hashCode(string) {
   var hash = 0, i, chr;
@@ -18,6 +14,7 @@ function hashCode(string) {
   }
   return hash;
 };
+
 function getDate() {
   let today = '';
   const date = new Date();
@@ -26,24 +23,35 @@ function getDate() {
   today += date.getUTCFullYear();
   return today;
 }
+
 function hashDate() {
-  return hashCode(getDate());
+  return hashCode(getDate()).toString();
 }
 
 exports.getDailyWords = (req, res) => {
-  const words = randomWords({ exactly: 2 });
-  Promise.all([
-    axios.get(`${process.env.THES_API_URL}${words[0]}?key=${process.env.THES_API_KEY}`),
-    axios.get(`${process.env.THES_API_URL}${words[1]}?key=${process.env.THES_API_KEY}`)
-  ])
-    .then(([word1, word2]) => {
-      res.status(200).send({
-        start: { word: words[0], thes: word1.data[0] },
-        goal: { word: words[1], thes: word2.data[1] },
-      });
+  getWordsByDate(hashDate())
+    .then(({ Item }) => {
+      if (Item) {
+        Item = unmarshall(Item);
+      }
+      const words = randomWords({ exactly: 2 });
+      Promise.all([
+        axios.get(`${process.env.THES_API_URL}${words[0]}?key=${process.env.THES_API_KEY}`),
+        axios.get(`${process.env.THES_API_URL}${words[1]}?key=${process.env.THES_API_KEY}`)
+      ])
+        .then(([word1, word2]) => {
+          res.status(200).send({
+            start: { word: words[0], thes: word1.data[0] },
+            goal: { word: words[1], thes: word2.data[1] },
+          });
+        })
+        .catch((err) => {
+          res.send(400);
+        });
     })
-    .catch((err) => {
-      res.send(400);
+    .catch(err => {
+      console.log(err);
+      res.status(400).send(err);
     });
 }
 
@@ -51,14 +59,24 @@ exports.getThesByWord = (req, res) => {
   axios.get(`${process.env.THES_API_URL}${req.params.word}?key=${process.env.THES_API_KEY}`)
     .then(({ data }) => {
       if (typeof data[0] === 'string' || data[0] === undefined) {
-        console.log(data[0]);
         res.sendStatus(404);
         return;
       }
       res.send({ word: req.params.word, thes: data[0] });
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
       res.sendStatus(400);
+    });
+}
+
+exports.saveDailyWords = (req, res) => {
+  insertDailyWords(hashDate(), req.body)
+    .then(() => {
+      res.sendStatus(201);
     })
+    .catch(err => {
+      console.log(err);
+      res.sendStatus(401);
+    });
 }

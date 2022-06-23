@@ -3,8 +3,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Card } from '@mui/material';
 import TopBar from '../components/TopBar';
+import useGlobalContext from '../src/GlobalContext';
 
 export default function Welcome() {
+  const { history } = useGlobalContext();
   return (
     <div>
       <main>
@@ -14,9 +16,9 @@ export default function Welcome() {
           <p>
             {new Date().toLocaleDateString('en-US')}</p>
           <div className={styles.grid}>
-            <div className={styles.card}>{'Start Today\'s Challenge'}</div>
+            {!history.length && <div className={styles.card}>{'Start Today\'s Challenge'}</div>}
             <Link href="/play">
-              <Button variant="outlined">New Game!</Button>
+              <Button variant="outlined">{history.length ? 'Continue' : 'New Game!'}</Button>
             </Link>
           </div>
         </div>

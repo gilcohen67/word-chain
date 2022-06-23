@@ -18,6 +18,7 @@ const style = {
 
 export default function DefinitionModal() {
   const { dailyWords, showDefModal, setShowDefModal } = useGlobalContext();
+  console.log(dailyWords);
   const handleClose = () => setShowDefModal('none');
   function word() {
     if (showDefModal === 'start') {

@@ -30,9 +30,6 @@ export default function TopBar({ playPage }) {
   }
 
   function resetGame() {
-    setDailyWords([{}, {}]);
-    setHistory([]);
-    setTimeline([]);
   }
 
   return (

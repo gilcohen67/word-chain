@@ -16,6 +16,7 @@ export function GlobalContextProvider({ children }) {
   const [showWin, setShowWin] = useState(false);
   const [history, setHistory] = useState([]);
   const [timeline, setTimeline] = useState([]);
+  const [idMap, setIdMap] = useState({})
   useEffect(() => {
     if ((dailyWords[0].thes === undefined || typeof dailyWords[0].thes === 'string') || (dailyWords[1].thes === undefined || typeof dailyWords[1].thes === 'string')) {
       axios.get('http://localhost:8080/words/daily')
@@ -26,6 +27,14 @@ export function GlobalContextProvider({ children }) {
         .catch(err => {
           console.log(err);
         });
+    } else {
+      axios.post('http://localhost:8080/words/daily', dailyWords)
+        .then(() => {
+          console.log('saved new set of daily words');
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
   }, [dailyWords]);
   const value = {
@@ -43,6 +52,8 @@ export function GlobalContextProvider({ children }) {
     setShowWin,
     timeline,
     setTimeline,
+    idMap,
+    setIdMap,
   };
   return (
     <GlobalContext.Provider value={value}>
