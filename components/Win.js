@@ -13,18 +13,16 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: '2px solid #333',
   boxShadow: 24,
   p: 4,
 };
 
 export default function Win() {
   const { timeline, showWin, setShowWin } = useGlobalContext();
-  const handleClose = () => setShowWin(false);
   return (
     <Modal
       open={showWin}
-      onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -33,13 +31,22 @@ export default function Win() {
           You Win!!!
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {`You won in ${timeline.length} moves`}
+          {`You won in ${timeline.length - 1} moves`}
         </Typography>
+        <Typography>
         <Link href="/timeline">
-          <Button>
+          <Button onClick={() => {setShowWin(false)}}>
             Your Timeline
           </Button>
         </Link>
+        </Typography>
+        <Typography>
+        <Link href="/">
+          <Button onClick={() => {setShowWin(false)}}>
+            Home Page
+          </Button>
+        </Link>
+        </Typography>
       </Box>
     </Modal>
   );

@@ -11,7 +11,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: '2px solid #333',
   boxShadow: 24,
   p: 4,
 };
@@ -45,7 +45,7 @@ export default function DefinitionModal() {
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {word()}
         </Typography>
-        {(dailyWords[0].thes && dailyWords[1].thes) && definition().map((def, idx) => (
+        {(dailyWords[0] && dailyWords[1]) && definition().map((def, idx) => (
           <Typography id="modal-modal-description" sx={{ mt: 2 }} key={idx}>
             {def}
           </Typography>

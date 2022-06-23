@@ -15,8 +15,9 @@ export default function HistoryTree() {
     setHistory,
     timeline,
     setTimeline,
+    idMap,
+    setIdMap,
   } = useGlobalContext();
-  const [idMap, setIdMap] = useState({});
   const [lastWord, setLastWord] = useState(null);
   useEffect(() => {
     if (currentWord.word === undefined || currentWord.word === '') {
@@ -89,8 +90,6 @@ export default function HistoryTree() {
 
   return (
     <div>
-      <div className={styles.treeInstruction}>Click to expand</div>
-      <div className={styles.treeInstruction}>Double Click to go back to previous word</div>
       <div className={styles.historyTree}>
         <TreeView
           aria-label="history tree"

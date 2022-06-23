@@ -15,7 +15,7 @@ import useGlobalContext from '../src/GlobalContext';
 
 export default function TopBar({ playPage }) {
   const { selectedTheme, setSelectedTheme } = useContext(DarkModeContext);
-  const { dailyWords, setDailyWords, setHist, setShowRules, setShowDefModal } = useGlobalContext();
+  const { dailyWords, setDailyWords, setHistory, setShowRules, setShowDefModal, setTimeline } = useGlobalContext();
 
   function toggleTheme() {
     setSelectedTheme(!selectedTheme);
@@ -27,11 +27,6 @@ export default function TopBar({ playPage }) {
 
   function handleDailyClick(e) {
     setShowDefModal(e.target.id);
-  }
-
-  function resetGame() {
-    setDailyWords([{}, {}]);
-    setHist([]);
   }
 
   return (
@@ -51,11 +46,11 @@ export default function TopBar({ playPage }) {
             Word Chain
           </Typography>
           {playPage && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Start:
+            START:
             <Button color="topBar" size="large" id="start" onClick={handleDailyClick}>{dailyWords[0].word}</Button>
           </Typography>}
           {playPage && <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Goal:
+            GOAL:
             <Button color="topBar" size="large" id="goal" onClick={handleDailyClick}>{dailyWords[1].word}</Button>
           </Typography>}
           {!selectedTheme && <LightMode></LightMode>}
@@ -65,7 +60,7 @@ export default function TopBar({ playPage }) {
           </label>
           <Button color="topBar" size="large" onClick={handleRulesClick}>Rules</Button>
           <Link href="/">
-            <Button color="topBar" size="large" onClick={resetGame}>Home</Button>
+            <Button color="topBar" size="large">Home</Button>
           </Link>
         </Toolbar>
       </AppBar>
