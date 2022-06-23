@@ -31,7 +31,7 @@ export default function Win() {
           You Win!!!
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {`You won in ${timeline.length} moves`}
+          {`You won in ${timeline.length - 1} moves`}
         </Typography>
         <Typography>
         <Link href="/timeline">

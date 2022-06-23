@@ -7,7 +7,6 @@ const client = new DynamoDB({ region: process.env.AWS_DEFAULT_REGION });
 exports.client = client;
 
 exports.getWordsByDate = (dateHash) => {
-  console.log(dateHash)
   return client.getItem({
     TableName: 'daily-words',
     AttributesToGet: ['daily_words'],
@@ -22,6 +21,7 @@ exports.getWordsByDate = (dateHash) => {
 exports.insertDailyWords = (dateHash, dailyWords) => {
   return client.putItem({
     TableName: 'daily-words',
+    ConditionExpression: 'attribute_not_exists(daily_words)',
     Item: {
       date_hash: marshall(dateHash),
       daily_words: {

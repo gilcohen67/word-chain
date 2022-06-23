@@ -18,7 +18,6 @@ const style = {
 
 export default function DefinitionModal() {
   const { dailyWords, showDefModal, setShowDefModal } = useGlobalContext();
-  console.log(dailyWords);
   const handleClose = () => setShowDefModal('none');
   function word() {
     if (showDefModal === 'start') {
@@ -46,7 +45,7 @@ export default function DefinitionModal() {
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {word()}
         </Typography>
-        {(dailyWords[0].thes && dailyWords[1].thes) && definition().map((def, idx) => (
+        {(dailyWords[0] && dailyWords[1]) && definition().map((def, idx) => (
           <Typography id="modal-modal-description" sx={{ mt: 2 }} key={idx}>
             {def}
           </Typography>

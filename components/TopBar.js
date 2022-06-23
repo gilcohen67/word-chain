@@ -29,9 +29,6 @@ export default function TopBar({ playPage }) {
     setShowDefModal(e.target.id);
   }
 
-  function resetGame() {
-  }
-
   return (
     <Box sx={{ flexGrow: 1, userSelect: 'none' }}>
       <AppBar color="primary" enableColorOnDark>
@@ -63,7 +60,7 @@ export default function TopBar({ playPage }) {
           </label>
           <Button color="topBar" size="large" onClick={handleRulesClick}>Rules</Button>
           <Link href="/">
-            <Button color="topBar" size="large" onClick={resetGame}>Home</Button>
+            <Button color="topBar" size="large">Home</Button>
           </Link>
         </Toolbar>
       </AppBar>

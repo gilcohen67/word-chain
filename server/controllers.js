@@ -18,9 +18,10 @@ function hashCode(string) {
 function getDate() {
   let today = '';
   const date = new Date();
+  today += date.getUTCFullYear();
   today += date.getUTCMonth();
   today += date.getUTCDate();
-  today += date.getUTCFullYear();
+  today += date.getUTCHours();
   return today;
 }
 
@@ -33,25 +34,26 @@ exports.getDailyWords = (req, res) => {
     .then(({ Item }) => {
       if (Item) {
         Item = unmarshall(Item);
+        res.send(Item.daily_words);
+      } else {
+        throw (new Error('item not found in DB'));
       }
+    })
+    .catch(err => {
       const words = randomWords({ exactly: 2 });
       Promise.all([
         axios.get(`${process.env.THES_API_URL}${words[0]}?key=${process.env.THES_API_KEY}`),
         axios.get(`${process.env.THES_API_URL}${words[1]}?key=${process.env.THES_API_KEY}`)
       ])
         .then(([word1, word2]) => {
-          res.status(200).send({
-            start: { word: words[0], thes: word1.data[0] },
-            goal: { word: words[1], thes: word2.data[1] },
-          });
+          res.status(200).send([
+            { word: words[0], thes: word1.data[0] },
+            { word: words[1], thes: word2.data[1] }
+          ]);
         })
         .catch((err) => {
           res.send(400);
         });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(400).send(err);
     });
 }
 
@@ -76,7 +78,10 @@ exports.saveDailyWords = (req, res) => {
       res.sendStatus(201);
     })
     .catch(err => {
-      console.log(err);
+      if (err.__type === 'com.amazonaws.dynamodb.v20120810#ConditionalCheckFailedException') {
+        res.sendStatus(200);
+        return;
+      }
       res.sendStatus(401);
     });
 }

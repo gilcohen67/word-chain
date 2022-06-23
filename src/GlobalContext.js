@@ -18,19 +18,23 @@ export function GlobalContextProvider({ children }) {
   const [timeline, setTimeline] = useState([]);
   const [idMap, setIdMap] = useState({})
   useEffect(() => {
-    if ((dailyWords[0].thes === undefined || typeof dailyWords[0].thes === 'string') || (dailyWords[1].thes === undefined || typeof dailyWords[1].thes === 'string')) {
+    if ((dailyWords[0] === undefined) || (dailyWords[0].thes === undefined || typeof dailyWords[0].thes === 'string') || (dailyWords[1].thes === undefined || typeof dailyWords[1].thes === 'string')) {
       axios.get('http://localhost:8080/words/daily')
         .then(({ data }) => {
-          setDailyWords([data.start, data.goal]);
-          setCurrentWord(data.start);
+          setDailyWords(data);
+          setCurrentWord(data[0]);
         })
         .catch(err => {
           console.log(err);
         });
     } else {
       axios.post('http://localhost:8080/words/daily', dailyWords)
-        .then(() => {
-          console.log('saved new set of daily words');
+        .then((res) => {
+          if (res.status === 200) {
+            console.log('word set already in DB')
+          } else {
+            console.log('saved new set of daily words');
+          }
         })
         .catch(err => {
           console.log(err);
