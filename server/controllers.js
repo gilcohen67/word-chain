@@ -21,7 +21,7 @@ function getDate() {
   today += date.getUTCFullYear();
   today += date.getUTCMonth();
   today += date.getUTCDate();
-  today += date.getUTCHours();
+  // today += date.getUTCHours();
   return today;
 }
 
