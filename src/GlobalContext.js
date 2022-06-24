@@ -17,7 +17,8 @@ export function GlobalContextProvider({ children }) {
   const [history, setHistory] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [idMap, setIdMap] = useState({});
-  const [leaderboard, setLeaderboard] = useState([]);
+  const [username, setUsername] = useState('');
+  const [leaderboard, setLeaderboard] = useState(null);
   useEffect(() => {
     if ((dailyWords[0] === undefined) || (dailyWords[0].thes === undefined || typeof dailyWords[0].thes === 'string') || (dailyWords[1].thes === undefined || typeof dailyWords[1].thes === 'string')) {
       axios.get('http://localhost:8080/words/daily')
@@ -59,6 +60,10 @@ export function GlobalContextProvider({ children }) {
     setTimeline,
     idMap,
     setIdMap,
+    username,
+    setUsername,
+    leaderboard,
+    setLeaderboard
   };
   return (
     <GlobalContext.Provider value={value}>

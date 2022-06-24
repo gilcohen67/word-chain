@@ -1,6 +1,6 @@
 const randomWords = require('random-words');
 const axios = require('axios');
-const { getWordsByDate, insertDailyWords } = require('../db/index');
+const db = require('../db/index');
 const { unmarshall } = require('@aws-sdk/util-dynamodb');
 require('dotenv').config();
 
@@ -21,7 +21,7 @@ function getDate() {
   today += date.getUTCFullYear();
   today += date.getUTCMonth();
   today += date.getUTCDate();
-  today += date.getUTCHours();
+  // today += date.getUTCHours();
   return today;
 }
 
@@ -29,8 +29,13 @@ function hashDate() {
   return hashCode(getDate()).toString();
 }
 
+function createRandomId() {
+  const date = new Date().toString();
+  return hashCode(date + Math.random()).toString();
+}
+
 exports.getDailyWords = (req, res) => {
-  getWordsByDate(hashDate())
+  db.getWordsByDate(hashDate())
     .then(({ Item }) => {
       if (Item) {
         Item = unmarshall(Item);
@@ -72,8 +77,36 @@ exports.getThesByWord = (req, res) => {
     });
 }
 
+exports.getLeaderboards = (req, res) => {
+  db.getLeaderboardByDate(hashDate())
+    .then(({Items}) => {
+      res.send(Items);
+    })
+    .catch(err => {
+      console.log(err);
+      res.sendStatus(400);
+    })
+}
+
+exports.submitToLeaderboards = (req, res) => {
+  const data = {
+    date_hash: hashDate(),
+    random_id: createRandomId(),
+    moves: req.body.moves,
+    username: req.body.username
+  };
+  db.insertToLeaderboards(data)
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log(err);
+      res.sendStatus(401);
+    });
+}
+
 exports.saveDailyWords = (req, res) => {
-  insertDailyWords(hashDate(), req.body)
+  db.insertDailyWords(hashDate(), req.body)
     .then(() => {
       res.sendStatus(201);
     })

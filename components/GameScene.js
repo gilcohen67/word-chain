@@ -11,27 +11,38 @@ export default function GameScene() {
     setShowWin,
     timeline,
     setTimeline,
+    username,
   } = useGlobalContext();
+
   function handleWordClick(e) {
     if (e.detail > 1) {
       return;
     }
-    // win if goal is within clicked word
     const re = new RegExp(`${dailyWords[1].word}`)
     if (e.target.innerText.toLowerCase().match(re)) {
       setShowWin(true);
       timeline.push(e.target.innerText.toLowerCase());
       setTimeline(timeline);
-      return;
+      axios.post(
+        `http://localhost:8080/leaderboards`,
+        {
+          username,
+          moves: timeline.length - 1,
+        })
+        .catch((err) => {
+          console.log('error saving score to leaderboards', err);
+        })
+    } else {
+      axios.get(`http://localhost:8080/thesaurus/${e.target.innerText.toLowerCase()}`)
+        .then(({ data }) => {
+          setCurrentWord(data);
+        })
+        .catch((err) => {
+          alert('Error with that word.. Maybe try another! SORRY!!!')
+        });
     }
-    axios.get(`http://localhost:8080/thesaurus/${e.target.innerText.toLowerCase()}`)
-      .then(({ data }) => {
-        setCurrentWord(data);
-      })
-      .catch((err) => {
-        alert('Error with that word.. Maybe try another! SORRY!!!')
-      })
   }
+
   function spreadSynonyms() {
     const synonyms = [];
     currentWord.thes.meta.syns.forEach((synArray) => {

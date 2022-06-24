@@ -9,13 +9,15 @@ import Button from '@mui/material/Button';
 // import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import Switch from '@mui/material/Switch';
-import { DarkMode, LightMode } from '@mui/icons-material';
+import { DarkMode, LightMode, RouterOutlined } from '@mui/icons-material';
 import { DarkModeContext } from '../pages/_app';
 import useGlobalContext from '../src/GlobalContext';
+import { useRouter } from 'next/router'
 
-export default function TopBar({ playPage }) {
+export default function TopBar({ playPage, homePage }) {
   const { selectedTheme, setSelectedTheme } = useContext(DarkModeContext);
   const { dailyWords, setDailyWords, setHistory, setShowRules, setShowDefModal, setTimeline } = useGlobalContext();
+  const router = useRouter();
 
   function toggleTheme() {
     setSelectedTheme(!selectedTheme);
@@ -27,6 +29,11 @@ export default function TopBar({ playPage }) {
 
   function handleDailyClick(e) {
     setShowDefModal(e.target.id);
+  }
+
+  function goHome(e) {
+    e.preventDefault();
+    playPage || homePage ? router.push('/') : window.location.replace('http://localhost:3000/');
   }
 
   return (
@@ -59,9 +66,7 @@ export default function TopBar({ playPage }) {
             <Switch onChange={toggleTheme} color="topBar" checked={selectedTheme} />
           </label>
           <Button color="topBar" size="large" onClick={handleRulesClick}>Rules</Button>
-          <Link href="/">
-            <Button color="topBar" size="large">Home</Button>
-          </Link>
+          <Button color="topBar" size="large" onClick={goHome}>Home</Button>
         </Toolbar>
       </AppBar>
     </Box>

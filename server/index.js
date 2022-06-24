@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
 // routes
 app.get('/words/daily', ctrl.getDailyWords);
 app.get('/thesaurus/:word', ctrl.getThesByWord);
-// app.get('/words/history'); // maybe serch history by word as well
-// app.post('/words/history'); // parent and child words
+app.get('/leaderboards', ctrl.getLeaderboards);
+app.post('/leaderboards', ctrl.submitToLeaderboards);
 app.post('/words/daily', ctrl.saveDailyWords);
 
 app.listen(8080, () => {
