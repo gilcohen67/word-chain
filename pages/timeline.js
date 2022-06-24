@@ -15,7 +15,7 @@ export default function TimelineView() {
   const { timeline } = useGlobalContext();
   return (
     <>
-      <TopBar playPage/>
+      <TopBar />
       <main className={styles.main}>
         <h3 className={styles.title}>Timeline</h3>
         <Timeline>

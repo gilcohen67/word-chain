@@ -4,8 +4,6 @@ require('dotenv').config();
 
 const client = new DynamoDB({ region: process.env.AWS_DEFAULT_REGION });
 
-exports.client = client;
-
 exports.getWordsByDate = (dateHash) => {
   return client.getItem({
     TableName: 'daily-words',
@@ -30,41 +28,26 @@ exports.insertDailyWords = (dateHash, dailyWords) => {
     }
   });
 }
-// daily_words: {
-//   L: [
-//     {
-//       M: {
-//         word: {
-//           S: dailyWords[0].word
-//         },
-//         thes: {
-//           M: {
-//             meta: {
-//               M: {
-//                 syns: {}
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   ]
-// }
 
-// client.query({
-//   TableName: "word-tree",
-//   ExpressionAttributeValues: {
-//     ':word': {
-//       S: 'cent',
-//     },
-//   },
-//   KeyConditionExpression: 'word_id = :word',
-//   limit: 1
-// })
-//   .then(res => {
-//     console.log(res)
-//     console.log(res.Items[0])
-//   })
-//   .catch(err => {
-//     console.log(err)
-//   })
+exports.getLeaderboardByDate = (dateHash) => {
+  return client.scan({
+    TableName: 'leaderboards',
+    FilterExpression: '#date_hash = :date',
+    ExpressionAttributeNames: {
+      '#date_hash': 'date_hash'
+    },
+    ExpressionAttributeValues: {
+      ':date': {
+        S: dateHash,
+      },
+    },
+    ProjectionExpression: 'username, moves'
+  });
+}
+
+exports.insertToLeaderboards = (data) => {
+  return client.putItem({
+    TableName: 'leaderboards',
+    Item: marshall(data),
+  });
+}

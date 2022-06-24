@@ -9,7 +9,7 @@ export default function Welcome() {
   const { history } = useGlobalContext();
   return (
     <div>
-      <TopBar />
+      <TopBar homePage/>
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Word Chain</h1>
         <p>

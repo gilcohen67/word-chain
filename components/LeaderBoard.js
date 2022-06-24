@@ -1,5 +1,7 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
+import useGlobalContext from '../src/GlobalContext';
 
 const columns = [
   { field: 'id', headerName: 'Rank', width: 80 },
@@ -25,15 +27,40 @@ const rows = [
 ];
 
 export default function LeaderBoard() {
+  const { leaderboard, setLeaderboard } = useGlobalContext();
+  useEffect(() => {
+    // get leaderBoards
+    axios.get('http://localhost:8080/leaderboards')
+      .then(({ data }) => {
+        console.log(data);
+        setLeaderboard(data);
+      })
+      .catch(err => {
+        console.log(err);
+        setLeaderboard(null);
+      })
+  }, [setLeaderboard]);
   return (
     <div style={{ height: 370.5, width: 312 }}>
-      <DataGrid
-        rows={rows}
+      {leaderboard && <DataGrid
+        rows={
+          leaderboard.length ?
+            leaderboard.sort((a, b) => {
+              return a.moves.N - b.moves.N;
+            }).map((item, idx) => {
+              return {
+                id: idx + 1,
+                username: item.username.S,
+                moves: item.moves.N
+              }
+            }) :
+            []
+        }
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
-      />
+      />}
     </div>
   );
 }

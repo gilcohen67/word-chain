@@ -20,6 +20,10 @@ const style = {
 
 export default function Win() {
   const { timeline, showWin, setShowWin } = useGlobalContext();
+
+  function resetGame() {
+    window.location.replace('http://localhost:3000/');
+  }
   return (
     <Modal
       open={showWin}
@@ -34,18 +38,16 @@ export default function Win() {
           {`You won in ${timeline.length - 1} moves`}
         </Typography>
         <Typography>
-        <Link href="/timeline">
-          <Button onClick={() => {setShowWin(false)}}>
-            Your Timeline
-          </Button>
-        </Link>
+          <Link href="/timeline">
+            <Button onClick={() => { setShowWin(false) }}>
+              Your Timeline
+            </Button>
+          </Link>
         </Typography>
         <Typography>
-        <Link href="/">
-          <Button onClick={() => {setShowWin(false)}}>
+          <Button onClick={resetGame}>
             Home Page
           </Button>
-        </Link>
         </Typography>
       </Box>
     </Modal>

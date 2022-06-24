@@ -34,14 +34,12 @@ export default function UsernameField() {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-
         <TextField
           id="username-field"
           label="Username"
           variant="outlined"
           onChange={handleChange}
           value={username}
-          required
         />
         <Button variant="outlined" type="submit">{history.length ? 'Continue' : 'New Game!'}</Button>
       </Box>
