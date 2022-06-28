@@ -11,10 +11,9 @@ export default function Welcome() {
     <div>
       <TopBar homePage/>
       <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to Word Chain</h1>
-        <p>
-          {new Date().toLocaleDateString('en-US')}</p>
-        {!history.length && <div className={styles.card}>{'Start Today\'s Challenge'}</div>}
+        {/* <h1 className={styles.title}>Welcome to Word Chain</h1> */}
+        <p style={{marginTop: 50}}>{new Date().toLocaleDateString('en-US')}</p>
+        {!history.length && <div>{'Start Today\'s Challenge'}</div>}
         <div className={styles.newGame}>
           <UsernameField />
         </div>

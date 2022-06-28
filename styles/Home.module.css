@@ -20,13 +20,13 @@
   justify-content: center;
   flex-wrap: wrap;
   max-width: 800px;
-  padding: 4rem;
+  padding: 2rem;
 }
 
 .newGame {
   display: flex;
   flex-direction: row;
-  margin: 4rem;
+  margin: 2rem;
 }
 
 .newGame > * {
