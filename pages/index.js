@@ -9,11 +9,11 @@ export default function Welcome() {
   const { history } = useGlobalContext();
   return (
     <div>
-      <TopBar homePage/>
+      <TopBar homePage />
       <main className={styles.main}>
         {/* <h1 className={styles.title}>Welcome to Word Chain</h1> */}
-        <p style={{marginTop: 50}}>{new Date().toLocaleDateString('en-US')}</p>
-        {!history.length && <div>{'Start Today\'s Challenge'}</div>}
+        {!history.length && <h2 style={{ marginTop: 75 }}>{'Start Today\'s Challenge'}</h2>}
+        <h3>{new Date().toLocaleDateString('en-US')}</h3>
         <div className={styles.newGame}>
           <UsernameField />
         </div>
