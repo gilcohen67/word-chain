@@ -10,7 +10,7 @@ exports.getWordsByDate = (dateHash) => {
     AttributesToGet: ['daily_words'],
     Key: {
       date_hash: {
-        S: dateHash
+        S: '1'
       }
     }
   });
@@ -21,7 +21,7 @@ exports.insertDailyWords = (dateHash, dailyWords) => {
     TableName: 'daily-words',
     ConditionExpression: 'attribute_not_exists(daily_words)',
     Item: {
-      date_hash: marshall(dateHash),
+      date_hash: {S: '1'},
       daily_words: {
         L: marshall(dailyWords)
       }
@@ -38,7 +38,7 @@ exports.getLeaderboardByDate = (dateHash) => {
     },
     ExpressionAttributeValues: {
       ':date': {
-        S: dateHash,
+        S: '1',
       },
     },
     ProjectionExpression: 'username, moves'

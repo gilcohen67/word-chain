@@ -90,7 +90,7 @@ exports.getLeaderboards = (req, res) => {
 
 exports.submitToLeaderboards = (req, res) => {
   const data = {
-    date_hash: hashDate(),
+    date_hash: '1',
     random_id: createRandomId(),
     moves: req.body.moves,
     username: req.body.username
