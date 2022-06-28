@@ -41,7 +41,7 @@ export default function LeaderBoard() {
       })
   }, [setLeaderboard]);
   return (
-    <div style={{ height: 370.5, width: 312 }}>
+    <div style={{ height: 370.5, width: 312, marginTop: 30 }}>
       {leaderboard && <DataGrid
         rows={
           leaderboard.length ?
