@@ -19,7 +19,7 @@ const style = {
   border: '2px solid #333',
   boxShadow: 24,
   p: 4,
-  maxHeight: '100%',
+  maxHeight: '90%',
   overflow: 'auto',
 };
 
