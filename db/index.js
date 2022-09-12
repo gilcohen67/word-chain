@@ -1,11 +1,11 @@
 const { DynamoDB } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
-require('dotenv').config();
-console.log(process.env.ACCESS_KEY_ID)
 const client = new DynamoDB({
   region: process.env.DEFAULT_REGION,
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY
+  credentials: {
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY
+  }
 });
 
 exports.getWordsByDate = (dateHash) => {
