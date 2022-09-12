@@ -33,7 +33,7 @@ export default function TopBar({ playPage, homePage }) {
 
   function goHome(e) {
     e.preventDefault();
-    playPage || homePage ? router.push('/') : window.location.replace('http://localhost:3000/');
+    playPage || homePage ? router.push('/') : window.location.replace(window.location.origin);
   }
 
   return (

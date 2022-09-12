@@ -22,7 +22,7 @@ export default function Win() {
   const { timeline, showWin, setShowWin } = useGlobalContext();
 
   function resetGame() {
-    window.location.replace('http://localhost:3000/');
+    window.location.replace(window.location.origin);
   }
   return (
     <Modal
