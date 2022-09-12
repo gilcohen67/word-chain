@@ -24,7 +24,7 @@ export default function GameScene() {
       timeline.push(e.target.innerText.toLowerCase());
       setTimeline(timeline);
       axios.post(
-        `http://localhost:8080/leaderboards`,
+        `/api/leaderboards`,
         {
           username,
           moves: timeline.length - 1,
@@ -33,7 +33,7 @@ export default function GameScene() {
           console.log('error saving score to leaderboards', err);
         })
     } else {
-      axios.get(`http://localhost:8080/thesaurus/${e.target.innerText.toLowerCase()}`)
+      axios.get(`/api/thesaurus/${e.target.innerText.toLowerCase()}`)
         .then(({ data }) => {
           setCurrentWord(data);
         })

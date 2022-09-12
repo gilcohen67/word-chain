@@ -1,6 +1,5 @@
 const { DynamoDB } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
-require('dotenv').config();
 
 const client = new DynamoDB({ region: process.env.AWS_DEFAULT_REGION });
 
