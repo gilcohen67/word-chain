@@ -21,7 +21,7 @@ export function GlobalContextProvider({ children }) {
   const [leaderboard, setLeaderboard] = useState(null);
   useEffect(() => {
     if ((dailyWords[0] === undefined) || (dailyWords[0].thes === undefined || typeof dailyWords[0].thes === 'string') || (dailyWords[1].thes === undefined || typeof dailyWords[1].thes === 'string')) {
-      axios.get('http://localhost:8080/words/daily')
+      axios.get('/api/words/daily')
         .then(({ data }) => {
           setDailyWords(data);
           setCurrentWord(data[0]);
@@ -30,7 +30,7 @@ export function GlobalContextProvider({ children }) {
           console.log(err);
         });
     } else {
-      axios.post('http://localhost:8080/words/daily', dailyWords)
+      axios.post('/api/words/daily', dailyWords)
         .then((res) => {
           if (res.status === 200) {
             console.log('word set already in DB')

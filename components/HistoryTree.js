@@ -39,7 +39,7 @@ export default function HistoryTree() {
   }, [currentWord.word]);
 
   function handleDoubleClick(e) {
-    axios.get(`http://localhost:8080/thesaurus/${e.target.innerText}`)
+    axios.get(`/api/thesaurus/${e.target.innerText}`)
       .then(({ data }) => {
         setCurrentWord(data);
       })

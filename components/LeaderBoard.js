@@ -14,23 +14,10 @@ const columns = [
   },
 ];
 
-const rows = [
-  { id: 1, username: 'Jon', moves: 35 },
-  { id: 2, username: 'Cersei', moves: 42 },
-  { id: 3, username: 'Jaime', moves: 45 },
-  { id: 4, username: 'Arya', moves: 16 },
-  { id: 5, username: 'Daenerysasdkjfh gaksjd fhg', moves: null },
-  { id: 6, username: null, moves: 150 },
-  { id: 7, username: 'Ferrara', moves: 44 },
-  { id: 8, username: 'Rossini', moves: 36 },
-  { id: 9, username: 'Harvey', moves: 65 },
-];
-
 export default function LeaderBoard() {
   const { leaderboard, setLeaderboard } = useGlobalContext();
   useEffect(() => {
-    // get leaderBoards
-    axios.get('http://localhost:8080/leaderboards')
+    axios.get('/api/leaderboards')
       .then(({ data }) => {
         console.log(data);
         setLeaderboard(data);
