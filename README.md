@@ -8,6 +8,8 @@ https://word-chain.vercel.app/
 - Next.js
 - DynamoDB
 - Merriam Webster API
+- Material UI
+- Axios
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
