@@ -1,7 +1,7 @@
 const { DynamoDB } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
 
-const client = new DynamoDB({ region: process.env.AWS_DEFAULT_REGION });
+const client = new DynamoDB({ region: process.env.DEFAULT_REGION });
 
 exports.getWordsByDate = (dateHash) => {
   return client.getItem({
